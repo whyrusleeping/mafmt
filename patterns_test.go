@@ -7,6 +7,7 @@ import (
 )
 
 func assertMatches(t *testing.T, p Pattern, args ...[]string) {
+	t.Logf("testing assertions for %q", p)
 	for _, argset := range args {
 		for _, s := range argset {
 			addr, err := ma.NewMultiaddr(s)

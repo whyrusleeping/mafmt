@@ -84,16 +84,14 @@ func (ptrn *pattern) String() string {
 		sub = append(sub, a.String())
 	}
 
-	var delim string
 	switch ptrn.Op {
 	case AND:
-		delim = ","
+		return strings.Join(sub, "/")
 	case OR:
-		delim = "|"
+		return "{" + strings.Join(sub, "|") + "}"
 	default:
 		panic("unrecognized pattern op!")
 	}
-	return "{ " + strings.Join(sub, delim) + " }"
 }
 
 type Base int

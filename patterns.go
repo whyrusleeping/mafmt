@@ -6,11 +6,22 @@ import (
 	ma "github.com/jbenet/go-multiaddr"
 )
 
+// Define IP as either ipv4 or ipv6
 var IP = Or(Base(ma.P_IP4), Base(ma.P_IP6))
+
+// Define TCP as 'tcp' on top of either ipv4 or ipv6
 var TCP = And(IP, Base(ma.P_TCP))
+
+// Define UDP as 'udp' on top of either ipv4 or ipv6
 var UDP = And(IP, Base(ma.P_UDP))
+
+// Define UTP as 'utp' on top of udp (on top of ipv4 or ipv6)
 var UTP = And(UDP, Base(ma.P_UTP))
+
+// Now define a Reliable transport as either tcp or utp
 var Reliable = Or(TCP, UTP)
+
+// IPFS can run over any reliable underlying transport protocol
 var IPFS = And(Reliable, Base(ma.P_IPFS))
 
 const (

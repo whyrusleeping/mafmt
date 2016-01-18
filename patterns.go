@@ -1,4 +1,4 @@
-package bnf
+package mafmt
 
 import (
 	"strings"
@@ -14,20 +14,20 @@ var Reliable = Or(TCP, UTP)
 var IPFS = And(Reliable, Base(ma.P_IPFS))
 
 const (
-	OR  = iota
-	AND = iota
+	or  = iota
+	and = iota
 )
 
 func And(ps ...Pattern) Pattern {
 	return &pattern{
-		Op:   AND,
+		Op:   and,
 		Args: ps,
 	}
 }
 
 func Or(ps ...Pattern) Pattern {
 	return &pattern{
-		Op:   OR,
+		Op:   or,
 		Args: ps,
 	}
 }
@@ -50,7 +50,7 @@ func (ptrn *pattern) Matches(a ma.Multiaddr) bool {
 
 func (ptrn *pattern) partialMatch(pcs []ma.Protocol) (bool, []ma.Protocol) {
 	switch ptrn.Op {
-	case OR:
+	case or:
 		for _, a := range ptrn.Args {
 			ok, rem := a.partialMatch(pcs)
 			if ok {
@@ -58,7 +58,7 @@ func (ptrn *pattern) partialMatch(pcs []ma.Protocol) (bool, []ma.Protocol) {
 			}
 		}
 		return false, nil
-	case AND:
+	case and:
 		if len(pcs) < len(ptrn.Args) {
 			return false, nil
 		}
@@ -85,9 +85,9 @@ func (ptrn *pattern) String() string {
 	}
 
 	switch ptrn.Op {
-	case AND:
+	case and:
 		return strings.Join(sub, "/")
-	case OR:
+	case or:
 		return "{" + strings.Join(sub, "|") + "}"
 	default:
 		panic("unrecognized pattern op!")

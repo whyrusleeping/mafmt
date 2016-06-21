@@ -110,6 +110,9 @@ func TestBasicMatching(t *testing.T) {
 	assertMatches(t, Reliable, good_utp, good_tcp)
 	assertMismatches(t, Reliable, good_ip, good_udp, good_ipfs)
 
+	assertMatches(t, Unreliable, good_udp)
+	assertMismatches(t, Unreliable, good_ip, good_tcp, good_utp, good_ipfs)
+
 	assertMatches(t, IPFS, good_ipfs)
 	assertMismatches(t, IPFS, bad_ipfs, good_ip, good_tcp, good_utp, good_udp)
 }

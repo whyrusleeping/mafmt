@@ -18,6 +18,9 @@ var UDP = And(IP, Base(ma.P_UDP))
 // Define UTP as 'utp' on top of udp (on top of ipv4 or ipv6)
 var UTP = And(UDP, Base(ma.P_UTP))
 
+// Define unreliable transport as udp
+var Unreliable = Or(UDP)
+
 // Now define a Reliable transport as either tcp or utp
 var Reliable = Or(TCP, UTP)
 

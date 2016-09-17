@@ -95,6 +95,22 @@ func TestBasicMatching(t *testing.T) {
 		"/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 	}
 
+	good_shs := []string{
+		"/ip4/1.2.3.4/tcp/1234/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/ip6/::/tcp/1234/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/ip6/::/udp/1234/utp/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/ip4/0.0.0.0/udp/1234/utp/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+	}
+
+	bad_shs := []string{
+		"/ip4/1.2.3.4/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/ip6/::/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/tcp/123/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/ip6/::/udp/1234/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/ip6/::/utp/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+		"/shs/7ZVaSM9sQ4mCCkn4MV1AhkcmSqF9V4u8p8r5hvxX4FnW",
+	}
+
 	assertMatches(t, IP, good_ip)
 	assertMismatches(t, IP, bad_ip, good_tcp)
 
@@ -115,4 +131,7 @@ func TestBasicMatching(t *testing.T) {
 
 	assertMatches(t, IPFS, good_ipfs)
 	assertMismatches(t, IPFS, bad_ipfs, good_ip, good_tcp, good_utp, good_udp)
+
+	assertMatches(t, SHS, good_shs)
+	assertMismatches(t, SHS, bad_shs, good_ip, good_tcp, good_utp, good_udp)
 }

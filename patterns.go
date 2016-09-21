@@ -3,7 +3,7 @@ package mafmt
 import (
 	"strings"
 
-	ma "github.com/jbenet/go-multiaddr"
+	ma "github.com/multiformats/go-multiaddr"
 )
 
 // Define IP as either ipv4 or ipv6

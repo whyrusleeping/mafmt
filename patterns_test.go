@@ -3,7 +3,7 @@ package mafmt
 import (
 	"testing"
 
-	ma "github.com/jbenet/go-multiaddr"
+	ma "github.com/multiformats/go-multiaddr"
 )
 
 func assertMatches(t *testing.T, p Pattern, args ...[]string) {

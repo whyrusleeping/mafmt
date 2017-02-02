@@ -19,6 +19,6 @@
   "license": "",
   "name": "mafmt",
   "releaseCmd": "git commit -a -m \"gx publish $VERSION\"",
-  "version": "1.1.2"
+  "version": "1.1.3"
 }
 

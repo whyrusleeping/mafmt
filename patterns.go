@@ -27,6 +27,9 @@ var Reliable = Or(TCP, UTP)
 // IPFS can run over any reliable underlying transport protocol
 var IPFS = And(Reliable, Base(ma.P_IPFS))
 
+// SHS can run over any reliable underlying transport protocol
+var SHS = And(Reliable, Base(ma.P_SHS))
+
 const (
 	or  = iota
 	and = iota

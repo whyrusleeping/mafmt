@@ -79,6 +79,17 @@ func TestBasicMatching(t *testing.T) {
 		"/utp",
 	}
 
+	good_quic := []string{
+		"/ip4/1.2.3.4/udp/1234/quic",
+		"/ip6/::/udp/1234/quic",
+	}
+
+	bad_quic := []string{
+		"/ip4/0.0.0.0/tcp/12345/quic",
+		"/ip6/1.2.3.4/ip4/0.0.0.0/udp/1234/quic",
+		"/quic",
+	}
+
 	good_ipfs := []string{
 		"/ip4/1.2.3.4/tcp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 		"/ip6/::/tcp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
@@ -102,17 +113,20 @@ func TestBasicMatching(t *testing.T) {
 	assertMismatches(t, TCP, bad_tcp, good_ip)
 
 	assertMatches(t, UDP, good_udp)
-	assertMismatches(t, UDP, bad_udp, good_ip, good_tcp, good_ipfs, good_utp)
+	assertMismatches(t, UDP, bad_udp, good_ip, good_tcp, good_ipfs, good_utp, good_quic)
 
 	assertMatches(t, UTP, good_utp)
-	assertMismatches(t, UTP, bad_utp, good_ip, good_tcp, good_udp)
+	assertMismatches(t, UTP, bad_utp, good_ip, good_tcp, good_udp, good_quic)
 
-	assertMatches(t, Reliable, good_utp, good_tcp)
+	assertMatches(t, QUIC, good_quic)
+	assertMismatches(t, QUIC, bad_quic, good_ip, good_tcp, good_udp, good_utp)
+
+	assertMatches(t, Reliable, good_utp, good_tcp, good_quic)
 	assertMismatches(t, Reliable, good_ip, good_udp, good_ipfs)
 
 	assertMatches(t, Unreliable, good_udp)
-	assertMismatches(t, Unreliable, good_ip, good_tcp, good_utp, good_ipfs)
+	assertMismatches(t, Unreliable, good_ip, good_tcp, good_utp, good_ipfs, good_quic)
 
 	assertMatches(t, IPFS, good_ipfs)
-	assertMismatches(t, IPFS, bad_ipfs, good_ip, good_tcp, good_utp, good_udp)
+	assertMismatches(t, IPFS, bad_ipfs, good_ip, good_tcp, good_utp, good_udp, good_quic)
 }

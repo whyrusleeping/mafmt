@@ -15,6 +15,9 @@ var TCP = And(IP, Base(ma.P_TCP))
 // Define UDP as 'udp' on top of either ipv4 or ipv6
 var UDP = And(IP, Base(ma.P_UDP))
 
+// Define DTLS as 'dtls' on top of udp (on top of ipv4 or ipv6)
+var DTLS = And(UDP, Base(ma.P_DTLS))
+
 // Define UTP as 'utp' on top of udp (on top of ipv4 or ipv6)
 var UTP = And(UDP, Base(ma.P_UTP))
 

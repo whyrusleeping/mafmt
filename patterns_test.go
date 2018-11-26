@@ -63,6 +63,17 @@ func TestBasicMatching(t *testing.T) {
 		"/ip6/::/udp/0",
 	}
 
+	good_dtls := []string{
+		"/ip4/0.0.7.6/udp/1234/dtls",
+		"/ip6/::/udp/0/dtls",
+	}
+
+	bad_dtls := []string{
+		"/ip4/0.0.0.0/tcp/12345/dtls",
+		"/ip6/1.2.3.4/ip4/0.0.0.0/udp/1234/dtls",
+		"/dtls",
+	}
+
 	bad_udp := []string{
 		"/udp/12345",
 		"/ip6/fc00::/tcp/5523/udp/9543",
@@ -114,6 +125,9 @@ func TestBasicMatching(t *testing.T) {
 
 	assertMatches(t, UDP, good_udp)
 	assertMismatches(t, UDP, bad_udp, good_ip, good_tcp, good_ipfs, good_utp, good_quic)
+
+	assertMatches(t, DTLS, good_dtls)
+	assertMismatches(t, DTLS, bad_dtls, good_udp, good_ip, good_tcp, good_ipfs, good_utp, good_quic)
 
 	assertMatches(t, UTP, good_utp)
 	assertMismatches(t, UTP, bad_utp, good_ip, good_tcp, good_udp, good_quic)

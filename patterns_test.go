@@ -38,6 +38,20 @@ func assertMismatches(t *testing.T, p Pattern, args ...[]string) {
 }
 
 func TestBasicMatching(t *testing.T) {
+	good_dns := []string{
+		"/dnsaddr/ipfs.io",
+		"/dns4/ipfs.io",
+		"/dns4/libp2p.io",
+		"/dns6/protocol.ai",
+		"/dns4/protocol.ai/tcp/80",
+		"/dns6/protocol.ai/tcp/80",
+		"/dnsaddr/protocol.ai/tcp/8",
+	}
+
+	bad_dns := []string{
+		"/ip4/127.0.0.1",
+	}
+
 	good_ip := []string{
 		"/ip4/0.0.0.0",
 		"/ip6/fc00::",
@@ -90,6 +104,11 @@ func TestBasicMatching(t *testing.T) {
 		"/quic",
 	}
 
+	good_webrtcdirect := []string{
+		"/ip4/1.2.3.4/tcp/3456/http/p2p-webrtc-direct",
+		"/ip6/::/tcp/0/http/p2p-webrtc-direct",
+	}
+
 	good_ipfs := []string{
 		"/ip4/1.2.3.4/tcp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 		"/ip6/::/tcp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
@@ -105,6 +124,9 @@ func TestBasicMatching(t *testing.T) {
 		"/ip6/::/utp/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 		"/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 	}
+
+	assertMatches(t, DNS, good_dns)
+	assertMismatches(t, DNS, bad_dns, bad_ip)
 
 	assertMatches(t, IP, good_ip)
 	assertMismatches(t, IP, bad_ip, good_tcp)
@@ -126,6 +148,9 @@ func TestBasicMatching(t *testing.T) {
 
 	assertMatches(t, Unreliable, good_udp)
 	assertMismatches(t, Unreliable, good_ip, good_tcp, good_utp, good_ipfs, good_quic)
+
+	assertMatches(t, WebRTCDirect, good_webrtcdirect)
+	assertMismatches(t, WebRTCDirect, good_ip, good_udp)
 
 	assertMatches(t, IPFS, good_ipfs)
 	assertMismatches(t, IPFS, bad_ipfs, good_ip, good_tcp, good_utp, good_udp, good_quic)

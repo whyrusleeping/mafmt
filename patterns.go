@@ -4,6 +4,25 @@ import (
 	"strings"
 
 	ma "github.com/multiformats/go-multiaddr"
+	madns "github.com/multiformats/go-multiaddr-dns"
+)
+
+// Define a dns4 format multiaddr
+var DNS4 = Base(madns.P_DNS4)
+
+// Define a dns6 format multiaddr
+var DNS6 = Base(madns.P_DNS6)
+
+var _DNS = Or(
+	Base(madns.P_DNSADDR),
+	DNS4,
+	DNS6,
+)
+
+// Define a dns4 or dns6 format multiaddr
+var DNS = Or(
+	And(_DNS, Base(ma.P_TCP)),
+	_DNS,
 )
 
 // Define IP as either ipv4 or ipv6
@@ -29,6 +48,26 @@ var Reliable = Or(TCP, UTP, QUIC)
 
 // IPFS can run over any reliable underlying transport protocol
 var IPFS = And(Reliable, Base(ma.P_IPFS))
+
+// Define http over TCP or DNS or http over DNS format multiaddr
+var HTTP = Or(
+	And(TCP, Base(ma.P_HTTP)),
+	And(IP, Base(ma.P_HTTP)),
+	And(DNS, Base(ma.P_HTTP)),
+	And(DNS),
+)
+
+// Define https over TCP or DNS or https over DNS format multiaddr
+var HTTPS = Or(
+	And(TCP, Base(ma.P_HTTPS)),
+	And(IP, Base(ma.P_HTTPS)),
+	And(DNS, Base(ma.P_HTTPS)),
+)
+
+// Define p2p-webrtc-direct over HTTP or p2p-webrtc-direct over HTTPS format multiaddr
+var WebRTCDirect = Or(
+	And(HTTP, Base(ma.P_P2P_WEBRTC_DIRECT)),
+	And(HTTPS, Base(ma.P_P2P_WEBRTC_DIRECT)))
 
 const (
 	or  = iota

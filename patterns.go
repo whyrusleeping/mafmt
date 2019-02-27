@@ -36,7 +36,7 @@ var And = nmafmt.And
 var Or = nmafmt.Or
 
 // Deprecated: use github.com/multiformats/go-multiaddr-fmt instead.
-type Pattern nmafmt.Pattern
+type Pattern = nmafmt.Pattern
 
 // Deprecated: use github.com/multiformats/go-multiaddr-fmt instead.
-type Base nmafmt.Base
+type Base = nmafmt.Base

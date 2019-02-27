@@ -13,16 +13,11 @@ var DNS4 = Base(madns.P_DNS4)
 // Define a dns6 format multiaddr
 var DNS6 = Base(madns.P_DNS6)
 
-var _DNS = Or(
+// Define a dnsaddr, dns4 or dns6 format multiaddr
+var DNS = Or(
 	Base(madns.P_DNSADDR),
 	DNS4,
 	DNS6,
-)
-
-// Define a dns4 or dns6 format multiaddr
-var DNS = Or(
-	And(_DNS, Base(ma.P_TCP)),
-	_DNS,
 )
 
 // Define IP as either ipv4 or ipv6
